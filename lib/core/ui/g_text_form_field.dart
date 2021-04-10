@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../common/app_colors.dart';
 import '../common/dimens.dart';
 import '../common/text_formater.dart';
 
-class GTextFormField extends StatelessWidget {
-  final GlobalKey<FormFieldState<String>> formKey;
-  final TextEditingController controller;
-  final TextInputAction textInputAction;
-  final TextInputType keyboardType;
-  final ValueChanged<String> onChanged;
-  final ValueChanged<String> onFieldSubmitted;
-  final FormFieldValidator<String> validator;
-  final FocusNode focusNode;
-  final String labelText;
-  final String hintText;
-  final Widget suffixIcon;
+class GeneralTextFormField extends StatelessWidget {
+  final GlobalKey<FormFieldState<String>>? formKey;
+  final TextEditingController? controller;
+  final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onFieldSubmitted;
+  final FormFieldValidator<String>? validator;
+  final FocusNode? focusNode;
+  final String? labelText;
+  final String? hintText;
+  final Widget? suffixIcon;
   final bool obscureText;
   final Color color;
-  final List<TextInputFormatter> inputFormatters;
+  final List<TextInputFormatter>? inputFormatters;
 
 
-  const GTextFormField({
-    Key key,
+  const GeneralTextFormField({
+    Key? key,
     this.formKey,
     this.controller,
     this.textInputAction,
@@ -53,7 +53,7 @@ class GTextFormField extends StatelessWidget {
         color: color,
         decorationThickness: 0,
         decorationColor: color,
-        fontSize: ScreenUtil().setSp(Dimens.font_sp28)
+        fontSize: Dimens.font_sp28.sp
       ),
       decoration: InputDecoration(
         hintText: hintText,
@@ -61,7 +61,7 @@ class GTextFormField extends StatelessWidget {
           color: color,
           decorationThickness: 0,
           decorationColor: color,
-          fontSize: ScreenUtil().setSp(Dimens.font_sp28),
+          fontSize: Dimens.font_sp28.sp,
         ),
         focusedBorder:  UnderlineInputBorder(
           borderSide:  BorderSide(
@@ -88,7 +88,7 @@ class GTextFormField extends StatelessWidget {
           color: color,
           decorationThickness: 0,
           decorationColor: color,
-          fontSize: ScreenUtil().setSp(Dimens.font_sp28),
+          fontSize: Dimens.font_sp28.sp,
         ),
         labelText: labelText,
         suffixIcon: suffixIcon,
@@ -100,7 +100,7 @@ class GTextFormField extends StatelessWidget {
       obscureText: obscureText,
       inputFormatters: keyboardType == TextInputType.phone?
       <TextInputFormatter>[
-        WhitelistingTextInputFormatter.digitsOnly,
+        FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(10),
         mobileFormatter,
       ]

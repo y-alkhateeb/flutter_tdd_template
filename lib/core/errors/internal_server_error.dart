@@ -1,3 +1,8 @@
-import './http_error.dart';
 
-class InternalServerError extends HttpError {}
+
+import 'base_error.dart';
+
+class InternalServerError extends BaseError {
+  @override
+  List<Object?> get props => [];
+}

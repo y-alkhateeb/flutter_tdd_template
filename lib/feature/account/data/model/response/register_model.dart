@@ -15,17 +15,17 @@ class RegisterModel {
     this.modifier,
   });
 
-  final String phoneNumber;
-  final String userName;
-  final String name;
-  final String imageUrl;
-  final String id;
-  final String createDate;
-  final String lastModifiedDate;
-  final String creatorId;
-  final String modifierId;
-  final String creator;
-  final String modifier;
+  final String? phoneNumber;
+  final String? userName;
+  final String? name;
+  final String? imageUrl;
+  final String? id;
+  final String? createDate;
+  final String? lastModifiedDate;
+  final String? creatorId;
+  final String? modifierId;
+  final String? creator;
+  final String? modifier;
 
   factory RegisterModel.fromJson(String str) => RegisterModel.fromMap(json.decode(str));
 

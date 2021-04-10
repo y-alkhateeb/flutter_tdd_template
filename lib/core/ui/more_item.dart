@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../core/common/app_colors.dart';
 import '../../core/common/dimens.dart';
 
 class MoreItem extends StatelessWidget {
   final String image;
   final String title;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const MoreItem({
-    Key key,
-    @required this.image,
-    @required this.title,
+    Key? key,
+    required this.image,
+    required this.title,
     this.onPressed,
   }) : super(key: key);
 
@@ -31,13 +31,14 @@ class MoreItem extends StatelessWidget {
             ),
             title: Text(
               title,
+              textScaleFactor: 1.0,
               style: TextStyle(
-                fontSize: ScreenUtil().setSp(Dimens.font_sp28)
+                fontSize: Dimens.font_sp28.sp
               ),
             ),
           ),
         ),
-        Divider(
+        const Divider(
           indent: 1,
         ),
       ],

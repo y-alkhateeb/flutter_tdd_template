@@ -3,15 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tdd_template/core/common/Utils.dart';
 import 'package:flutter_tdd_template/core/common/app_colors.dart';
 import 'package:flutter_tdd_template/core/common/dimens.dart';
 import 'package:flutter_tdd_template/core/common/gaps.dart';
 import 'package:flutter_tdd_template/core/common/validators.dart';
 import 'package:flutter_tdd_template/core/constants.dart';
-import 'package:flutter_tdd_template/core/localization/flutter_localization.dart';
-import 'package:flutter_tdd_template/core/localization/translations.dart';
 import 'package:flutter_tdd_template/core/ui/g_text_form_field.dart';
 import 'package:flutter_tdd_template/core/ui/show_error.dart';
 import 'package:flutter_tdd_template/feature/account/data/datasources/account_remote.dart';
@@ -19,7 +17,8 @@ import 'package:flutter_tdd_template/feature/account/data/model/request/login_re
 import 'package:flutter_tdd_template/feature/account/presentation/bloc/account_bloc.dart';
 import 'package:flutter_tdd_template/feature/account/presentation/widget/custom_button_widget.dart';
 import 'package:flutter_tdd_template/feature/home/screen/bottom_tab_bar.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:flutter_tdd_template/generated/l10n.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -82,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ShowError.showErrorSnakBar(context, state.error, state);
                     }
                   },
-                  cubit: BlocProvider.of<AccountBloc>(context),
+                  bloc: BlocProvider.of<AccountBloc>(context),
                   child: Column(
                     children: <Widget>[
                       Gaps.vGap64,
@@ -99,15 +98,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ],
                       ),
                       Gaps.vGap64,
-                      AccountRemoteSource.loginMode == 1
-                          ? _buildPhoneNumberField()
-                          : _buildEmailField(),
+                      _buildPhoneNumberField(),
+                      Gaps.vGap64,
+                      _buildEmailField(),
                       Gaps.vGap32,
                       _buildPasswordField(),
                       Gaps.vGap128,
                       CustomButton(
                         color: AppColors.greenColor,
-                        text: Translations.of(context).translate("Login"),
+                        text: S.of(context).label_Login,
                         textColor: AppColors.lightFontColor,
                         onPressed: () {
                           sendRequest();
@@ -118,8 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            Translations.of(context)
-                                .translate("label_or_u_can"),
+                            S.of(context).label_or_u_can,
                             style: TextStyle(
                               color: AppColors.lightFontColor,
                               fontSize: ScreenUtil().setSp(Dimens.font_sp28),
@@ -131,30 +129,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       CustomButton(
                         color: AppColors.lightFontColor,
                         text:
-                            Translations.of(context).translate("label_sign_up"),
+                            S.of(context).label_sign_up,
                         textColor: AppColors.blueFontColor,
                         onPressed: () {
                           unFocus();
                           Navigator.of(context)
                               .pushNamed(RegisterScreen.routeName);
-                        },
-                      ),
-                      Gaps.vGap64,
-                      CustomButton(
-                        color: AppColors.lightFontColor,
-                        text:
-                            Translations.of(context).translate("label_change_to_email_or_phone"),
-                        textColor: AppColors.blueFontColor,
-                        onPressed: () {
-                          unFocus();
-                          if(AccountRemoteSource.loginMode == 2){
-                            AccountRemoteSource.loginMode = 1;
-                            RestartWidget.restartApp(context);
-                          }
-                          else{
-                            AccountRemoteSource.loginMode = 2;
-                            RestartWidget.restartApp(context);
-                          }
                         },
                       ),
                       Gaps.vGap64,
@@ -182,8 +162,8 @@ class _LoginScreenState extends State<LoginScreen> {
       turnPhoneOrEmailValidate = true;
       turnPasswordValidate = true;
     });
-    if (_phoneOrEmailKey.currentState.validate()) {
-      if (_passwordKey.currentState.validate()) {
+    if (_phoneOrEmailKey.currentState!.validate()) {
+      if (_passwordKey.currentState!.validate()) {
         BlocProvider.of<AccountBloc>(context).add(
           LoginAccountEvent(LoginRequest(
             phoneNumber:_phoneOrEmailController.text.
@@ -198,20 +178,20 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _buildPhoneNumberField() {
-    return GTextFormField(
+    return GeneralTextFormField(
       formKey: _phoneOrEmailKey,
       controller: _phoneOrEmailController,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.phone,
       focusNode: myFocusNodeUserName,
-      labelText: Translations.of(context).translate('label_phone'),
+      labelText: S.of(context).label_phone,
       hintText: "09X-XXX-XXXX",
       validator: (value) {
         if (turnPhoneOrEmailValidate) {
-          if (Validators.isValidPhoneNumber(value))
+          if (Validators.isValidPhoneNumber(value!))
             return null;
           else
-            return Translations.of(context).translate('error_inValid_phone');
+            return S.of(context).error_inValid_phone;
         } else
           return null;
       },
@@ -223,26 +203,26 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             turnPhoneOrEmailValidate = false;
           });
-          _phoneOrEmailKey.currentState.validate();
+          _phoneOrEmailKey.currentState!.validate();
         }
       },
     );
   }
 
   _buildEmailField() {
-    return GTextFormField(
+    return GeneralTextFormField(
       formKey: _phoneOrEmailKey,
       controller: _phoneOrEmailController,
       textInputAction: TextInputAction.next,
       keyboardType: TextInputType.emailAddress,
       focusNode: myFocusNodeUserName,
-      labelText: Translations.of(context).translate('label_email'),
+      labelText: S.of(context).label_email,
       validator: (value) {
         if (turnPhoneOrEmailValidate) {
-          if (Validators.isValidEmail(value))
+          if (Validators.isValidEmail(value!))
             return null;
           else
-            return Translations.of(context).translate('error_inValid_email');
+            return S.of(context).error_inValid_email;
         } else
           return null;
       },
@@ -254,20 +234,20 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             turnPhoneOrEmailValidate = false;
           });
-          _phoneOrEmailKey.currentState.validate();
+          _phoneOrEmailKey.currentState!.validate();
         }
       },
     );
   }
 
   _buildPasswordField() {
-    return GTextFormField(
+    return GeneralTextFormField(
       formKey: _passwordKey,
       controller: _passwordController,
       textInputAction: TextInputAction.go,
       keyboardType: TextInputType.text,
       focusNode: myFocusNodePassword,
-      labelText: Translations.of(context).translate('label_password'),
+      labelText: S.of(context).label_password,
       suffixIcon: IconButton(
           icon: Icon(
             _passwordSecure ? Icons.visibility : Icons.visibility_off,
@@ -280,10 +260,10 @@ class _LoginScreenState extends State<LoginScreen> {
           }),
       validator: (value) {
         if (turnPasswordValidate) {
-          if (Validators.isValidPassword(value))
+          if (Validators.isValidPassword(value!))
             return null;
           else
-            return Translations.of(context).translate('error_password_short');
+            return S.of(context).error_password_short;
         } else
           return null;
       },
@@ -295,7 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             turnPasswordValidate = false;
           });
-          _passwordKey.currentState.validate();
+          _passwordKey.currentState!.validate();
         }
       },
       obscureText: _passwordSecure,

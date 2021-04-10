@@ -1,16 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_tdd_template/core/constants.dart';
 import 'package:flutter_tdd_template/core/datasource/shared_preference.dart';
 import 'package:flutter_tdd_template/core/errors/base_error.dart';
 import 'package:flutter_tdd_template/core/errors/unknown_error.dart';
 import 'package:flutter_tdd_template/core/result/result.dart';
 import 'package:flutter_tdd_template/feature/account/data/datasources/iaccount_remote.dart';
-import 'package:flutter_tdd_template/feature/account/data/model/login_model.dart';
-import 'package:flutter_tdd_template/feature/account/data/model/register_model.dart';
 import 'package:flutter_tdd_template/feature/account/data/model/request/login_request.dart';
 import 'package:flutter_tdd_template/feature/account/data/model/request/register_request.dart';
+import 'package:flutter_tdd_template/feature/account/data/model/response/login_model.dart';
+import 'package:flutter_tdd_template/feature/account/data/model/response/register_model.dart';
 import 'package:flutter_tdd_template/feature/account/domain/repository/iaccount_repository.dart';
 
 class AccountRepository extends IAccountRepository {
@@ -26,10 +24,10 @@ class AccountRepository extends IAccountRepository {
       return Result(error: (remote as Left<BaseError, LoginModel>).value);
     }
     if (remote.isRight()) {
-      final data = (remote as Right<BaseError, LoginModel>)?.value;
+      final data = (remote as Right<BaseError, LoginModel>).value;
       // Persist token if exists.
-      if (data.token != null && data.token.isNotEmpty) {
-        await persistToken(data.token);
+      if (data.token != null && data.token!.isNotEmpty) {
+        await persistToken(data.token!);
       }
       return Result(data: data);
     }
@@ -108,7 +106,7 @@ class AccountRepository extends IAccountRepository {
   static Future<bool> get hasToken async {
     final prefs = await SpUtil.getInstance();
     String token = await prefs.getString(KEY_TOKEN);
-    if (token != null && token.isNotEmpty) return true;
+    if (token.isNotEmpty) return true;
     return false;
   }
 

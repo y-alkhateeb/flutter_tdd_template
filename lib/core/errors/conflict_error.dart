@@ -1,3 +1,6 @@
-import './http_error.dart';
+import 'base_error.dart';
 
-class ConflictError extends HttpError {}
+class ConflictError extends BaseError {
+  @override
+  List<Object?> get props => [];
+}

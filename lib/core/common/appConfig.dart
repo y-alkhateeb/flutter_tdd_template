@@ -5,13 +5,21 @@ import '../constants.dart';
 
 // This class it contain tow functions
 // for get device info
-// and for get and set language and check if has token or not
+// and for get and set language
 class AppConfig {
-  static  String lang ;
-  int os;
-  String currentVersion;
-  String buildNumber;
-  String appName;
+  static final AppConfig _instance = AppConfig._internal();
+
+  factory AppConfig() {
+    return _instance;
+  }
+
+  AppConfig._internal();
+
+  String? lang;
+  int? os;
+  String? currentVersion;
+  String? buildNumber;
+  String? appName;
 
   initVersion() async {
     /// get OS
@@ -33,9 +41,7 @@ class AppConfig {
   Future<String> currentLanguage() async {
     final prefs = await SpUtil.getInstance();
       lang = await prefs.getString(KEY_LANGUAGE);
-    if(lang != null) return lang;
+    if(lang != null) return lang!;
     else return LANG_EN;
   }
 }
-
-AppConfig appConfig = AppConfig();

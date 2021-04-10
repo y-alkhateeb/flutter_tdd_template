@@ -25,8 +25,7 @@ class Validators {
     // Only store the actual digits
     final newPhone = phone.replaceAll(RegExp("[^0-9]"), "");
     print(newPhone);
-      return newPhone != null &&
-          newPhone.isNotEmpty &&
+      return newPhone.isNotEmpty &&
           ((newPhone.startsWith('09') && newPhone.length == 10));
   }
 }

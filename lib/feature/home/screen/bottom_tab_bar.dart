@@ -1,15 +1,16 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tdd_template/core/common/Utils.dart';
 import 'package:flutter_tdd_template/core/common/app_colors.dart';
 import 'package:flutter_tdd_template/core/common/dimens.dart';
 import 'package:flutter_tdd_template/core/constants.dart';
-import 'package:flutter_tdd_template/core/lib/curved_navigation_bar.dart';
-import 'package:flutter_tdd_template/core/localization/flutter_localization.dart';
+import 'package:flutter_tdd_template/core/localization/localization_provider.dart';
 import 'package:flutter_tdd_template/core/model/lanuage_model.dart';
 import 'package:flutter_tdd_template/core/ui/more_item.dart';
 import 'package:flutter_tdd_template/core/ui/show_dialog.dart';
 import 'package:flutter_tdd_template/feature/account/presentation/widget/custom_button_widget.dart';
+import 'package:flutter_tdd_template/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 class BottomTabBar extends StatefulWidget {
@@ -21,8 +22,8 @@ class BottomTabBar extends StatefulWidget {
 
 class _BottomTabBarState extends State<BottomTabBar>
     with SingleTickerProviderStateMixin {
-  TabController tabControl;
-  int _bottomNavigationBarIndex;
+  late TabController tabControl;
+  late int _bottomNavigationBarIndex;
 
   @override
   void initState() {
@@ -87,16 +88,15 @@ class _BottomTabBarState extends State<BottomTabBar>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             MoreItem(
-              title: Translations.of(context).translate("label_change_language"),
+              title: S.of(context).label_change_language,
               image: MENU_CHANGE_LANG,
               onPressed: ()=> _buildChangeLanguage(),
             ),
             MoreItem(
-              title: Translations.of(context).translate("label_logout"),
+              title: S.of(context).label_logout,
               image: MENU_LOGOUT,
               onPressed: () async {
                 await logout();
-                logoutGoToLoginAndResetStateBlocProvider(context);
               },
             ),
           ],
@@ -144,18 +144,19 @@ class _BottomTabBarState extends State<BottomTabBar>
     ];
   }
 
-  _buildChangeLanguage(){
-    int _currentLangValue = Translations.of(context).locale.languageCode==
-        LANG_AR ? LanguageModel.getLanguage().first.languageId :
-    LanguageModel.getLanguage().last.languageId;
+  _buildChangeLanguage() {
+    int? _currentLangValue =
+    Localizations.localeOf(context).languageCode == LANG_AR
+        ? LanguageModel.getLanguage().first.languageId
+        : LanguageModel.getLanguage().last.languageId;
     ShowDialog().showTransparentDialog(
         context: context,
-        builder:(context){
+        builder: (context) {
           return StatefulBuilder(
-            builder: (context, setState){
+            builder: (context, setState) {
               return Dialog(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.80,
+                  width: MediaQuery.of(context).size.width * 0.90,
                   height: MediaQuery.of(context).size.height * 0.40,
                   decoration: BoxDecoration(
                       borderRadius:
@@ -164,44 +165,65 @@ class _BottomTabBarState extends State<BottomTabBar>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
-                        children: LanguageModel.getLanguage().map((e) =>
-                            RadioListTile(
-                              groupValue: _currentLangValue,
-                              value: e.languageId,
-                              title: Text(e.languageName),
-                              activeColor: AppColors.primaryColor,
-                              onChanged: (val){
-                                setState(() {
-                                  _currentLangValue = val;
-                                });
-                              },
-                            ),
-                        ).toList(),
+                        children: LanguageModel.getLanguage()
+                            .map(
+                              (e) => RadioListTile(
+                            groupValue: _currentLangValue,
+                            value: e.languageId,
+                            title: Text(e.languageName,style:TextStyle(
+                              fontSize: ScreenUtil().setSp(Dimens.font_sp28),
+                              color: AppColors.black_text,
+                            )),
+                            activeColor: AppColors.accentColor,
+                            onChanged: (int? val) {
+                              setState(() {
+                                _currentLangValue = val;
+                              });
+                            },
+                          ),
+                        )
+                            .toList(),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          CustomButton(
-                            color: AppColors.accentLightColor,
-                            text: Translations.of(context).translate("label_cancel"),
-                            textColor: Colors.white,
-                            onPressed: ()=>Navigator.pop(context),
-                            fontSize: ScreenUtil().setSp(Dimens.font_sp24),
-                            padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(64)),
+                          OutlineButton(
+                            onPressed: () => Navigator.pop(context),
+                            color: Colors.white,
+                            highlightedBorderColor: AppColors.primaryColor,
+                            splashColor: AppColors.primaryColor.withAlpha(20),
+                            borderSide: BorderSide(
+                              color: AppColors.primaryColor,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                minWidth: Dimens.dp64,
+                              ),
+                              child: Text(
+                                S.of(context).app_cancel,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.text_gray,
+                                  fontSize: ScreenUtil().setSp(Dimens.font_sp28),
+                                ),
+                              ),
+                            ),
                           ),
                           CustomButton(
-                            color: AppColors.primaryColor,
-                            text: Translations.of(context).translate("label_confirm"),
-                            textColor: Colors.white,
+                            text: S.of(context).app_confirm,
                             onPressed: () {
-                              Provider.of<AppConfigProvider>(context,listen: false).
-                              changeLanguage(
-                                LanguageModel.getLanguage()[_currentLangValue].locale,
+                              Provider.of<LocalizationProvider>(context,
+                                  listen: false)
+                                  .changeLanguage(
+                                LanguageModel.getLanguage()[_currentLangValue!]
+                                    .locale,
                                 context,
                               );
+                              Navigator.pop(context);
                             },
-                            fontSize: ScreenUtil().setSp(Dimens.font_sp24),
-                            padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(64)),
                           ),
                         ],
                       ),
@@ -211,7 +233,6 @@ class _BottomTabBarState extends State<BottomTabBar>
               );
             },
           );
-        }
-    );
+        });
   }
 }

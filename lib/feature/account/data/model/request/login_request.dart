@@ -8,12 +8,12 @@ class LoginRequest extends BaseParams{
     this.phoneNumber,
     this.email,
     this.password,
-    CancelToken cancelToken
-  }): super(cancelToken: cancelToken);
+    CancelToken? cancelToken
+  }): super(cancelToken: cancelToken!);
 
-  final String phoneNumber;
-  final String email;
-  final String password;
+  final String? phoneNumber;
+  final String? email;
+  final String? password;
 
   factory LoginRequest.fromJson(String str) => LoginRequest.fromMap(json.decode(str));
 

@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'core/common/app_colors.dart';
 import 'core/common/dimens.dart';
 import 'feature/account/data/repository/account_repository.dart';
@@ -35,7 +35,6 @@ class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(750, 1334));
     return Scaffold(
       body: Container(
         height: double.maxFinite,
@@ -57,7 +56,7 @@ class _SplashState extends State<Splash> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: TextLiquidFill(
-                    boxHeight: ScreenUtil().setHeight(300),
+                    boxHeight: 300.h,
                     text: "FLUTTER TDD TEMPLATE",
                     loadDuration: const Duration(seconds: 4),
                     waveDuration: const Duration(seconds: 2),

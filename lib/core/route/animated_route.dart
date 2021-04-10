@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AnimatedRoute extends PageRouteBuilder {
   final Widget page;
 
-  AnimatedRoute({this.page})
+  AnimatedRoute({required this.page})
       : super(
           pageBuilder: (context, animation, secondaryAnimation) {
             return ListenableProvider(
@@ -25,11 +25,11 @@ class SlidingAnimated extends StatelessWidget {
   final Widget child;
 
   const SlidingAnimated({
-    Key key,
-    @required this.initialOffsetX,
-    @required this.intervalStart,
-    @required this.intervalEnd,
-    @required this.child,
+    Key? key,
+    required this.initialOffsetX,
+    required this.intervalStart,
+    required this.intervalEnd,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -67,10 +67,10 @@ class FadeAnimated extends StatelessWidget {
   final Widget child;
 
   const FadeAnimated({
-    Key key,
-    @required this.intervalStart,
-    @required this.intervalEnd,
-    @required this.child,
+    Key? key,
+    required this.intervalStart,
+    required this.intervalEnd,
+    required this.child,
   }) : super(key: key);
 
   @override

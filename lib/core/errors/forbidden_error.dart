@@ -1,3 +1,6 @@
-import './http_error.dart';
+import 'base_error.dart';
 
-class ForbiddenError extends HttpError {}
+class ForbiddenError extends BaseError {
+  @override
+  List<Object?> get props => [];
+}

@@ -1,29 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tdd_template/core/errors/cancel_error.dart';
+import 'package:flutter_tdd_template/core/errors/connection_error.dart';
+import 'package:flutter_tdd_template/generated/l10n.dart';
 import '../common/gaps.dart';
 import '../errors/bad_request_error.dart';
-import '../errors/connection_error.dart';
 import '../errors/custom_error.dart';
 import '../errors/forbidden_error.dart';
 import '../errors/internal_server_error.dart';
 import '../errors/not_found_error.dart';
 import '../errors/timeout_error.dart';
 import '../errors/unauthorized_error.dart';
-import '../localization/translations.dart';
 import '../constants.dart';
-import 'show_error.dart';
 
 class ShowErrorWidget extends StatelessWidget {
   final dynamic state;
 
-  ShowErrorWidget({Key key, this.state}) : super(key: key);
+  ShowErrorWidget({Key? key, this.state}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final error = state.error;
     {
       print(error);
       // Connection Error
-      if (error.runtimeType is ConnectionError) {
+      if (error is ConnectionError) {
         return ConnectionErrorScreenWidget(callback: state.callback);
       }
       // Custom Error
@@ -50,23 +51,30 @@ class ShowErrorWidget extends StatelessWidget {
       }
       // Internal Server Error
       else if (error is InternalServerError) {
-        return InternalServerErrorScreenWidget(callback: state.callback,);
+        return InternalServerErrorScreenWidget(
+          callback: state.callback,
+        );
+      } else if (error is TimeoutError) {
+        return TimeoutErrorScreenWidget(
+          callback: state.callback,
+        );
       }
-      else if (error is TimeoutError) {
-        return TimeoutErrorScreenWidget(callback: state.callback,);
+      else if (error is CancelError) {
+        return CustomErrorScreenWidget(message: error.message??S.of(context).error_cancel_token);
       }
     }
-    return UnexpectedErrorScreenWidget(callback: state.callback,);
+    return UnexpectedErrorScreenWidget(
+      callback: state.callback,
+    );
   }
 }
-
 
 class ConnectionErrorScreenWidget extends StatelessWidget {
   final VoidCallback callback;
 
   const ConnectionErrorScreenWidget({
-    Key key,
-    @required this.callback,
+    Key? key,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -82,14 +90,13 @@ class ConnectionErrorScreenWidget extends StatelessWidget {
           ),
           Gaps.vGap32,
           Text(
-            Translations.of(context).translate('error_connection'),
+            S.of(context).error_connection,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Gaps.vGap32,
           RaisedButton(
             onPressed: callback,
-            child: Text(
-              Translations.of(context).translate('btn_Rty_title'),
+            child: Text(S.of(context).btn_Rty_title,
               style: TextStyle(fontSize: 12.5, color: Colors.white),
             ),
             color: Theme.of(context).accentColor,
@@ -104,8 +111,8 @@ class InternalServerErrorScreenWidget extends StatelessWidget {
   final VoidCallback callback;
 
   const InternalServerErrorScreenWidget({
-    Key key,
-    @required this.callback,
+    Key? key,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -120,15 +127,14 @@ class InternalServerErrorScreenWidget extends StatelessWidget {
             scale: 2.5,
           ),
           Gaps.vGap32,
-          Text(
-            Translations.of(context).translate('error_internal_server'),
+          Text(S.of(context).error_internal_server,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Gaps.vGap32,
           RaisedButton(
             onPressed: callback,
             child: Text(
-              Translations.of(context).translate('btn_Rty_title'),
+              S.of(context).btn_Rty_title,
               style: TextStyle(fontSize: 12.5, color: Colors.white),
             ),
             color: Theme.of(context).accentColor,
@@ -139,23 +145,28 @@ class InternalServerErrorScreenWidget extends StatelessWidget {
   }
 }
 
-class ForbiddenErrorScreenWidget extends StatelessWidget {
+class ForbiddenErrorScreenWidget extends StatefulWidget {
+  @override
+  _ForbiddenErrorScreenWidgetState createState() => _ForbiddenErrorScreenWidgetState();
+}
+
+class _ForbiddenErrorScreenWidgetState extends State<ForbiddenErrorScreenWidget> {
+
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 100),
-       ()=>ShowError.showForbiddenError(context)
-    );
-    return Container(
-      color: Colors.white,
-      child: const SizedBox(),
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: const SizedBox(),
+      ),
     );
   }
 }
 
 class BadRequestErrorScreenWidget extends StatelessWidget {
-  final String message;
-  const BadRequestErrorScreenWidget({Key key, this.message})
-      : super(key: key);
+  final String? message;
+
+  const BadRequestErrorScreenWidget({Key? key, this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -165,12 +176,12 @@ class BadRequestErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-              ERROR_INVALID,
-              scale: 2.5,
+            ERROR_INVALID,
+            scale: 2.5,
           ),
           Gaps.vGap32,
-          Text(message??
-              Translations.of(context).translate('error_BadRequest_Error'),
+          Text(
+            message ?? S.of(context).error_BadRequest_Error,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
@@ -182,7 +193,7 @@ class BadRequestErrorScreenWidget extends StatelessWidget {
 class NotFoundErrorScreenWidget extends StatelessWidget {
   final VoidCallback callback;
 
-  const NotFoundErrorScreenWidget({Key key, @required this.callback})
+  const NotFoundErrorScreenWidget({Key? key, required this.callback})
       : super(key: key);
 
   @override
@@ -197,15 +208,13 @@ class NotFoundErrorScreenWidget extends StatelessWidget {
             scale: 2.5,
           ),
           Gaps.vGap32,
-          Text(
-            Translations.of(context).translate('error_NotFound_Error'),
+          Text(S.of(context).error_NotFound_Error,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Gaps.vGap32,
           RaisedButton(
             onPressed: callback,
-            child: Text(
-              Translations.of(context).translate('btn_Rty_title'),
+            child: Text(S.of(context).btn_Rty_title,
               style: TextStyle(fontSize: 12.5, color: Colors.white),
             ),
             color: Theme.of(context).accentColor,
@@ -216,27 +225,33 @@ class NotFoundErrorScreenWidget extends StatelessWidget {
   }
 }
 
-class UnauthorizedErrorScreenWidget extends StatelessWidget {
+class UnauthorizedErrorScreenWidget extends StatefulWidget {
+  @override
+  _UnauthorizedErrorScreenWidgetState createState() => _UnauthorizedErrorScreenWidgetState();
+}
+
+class _UnauthorizedErrorScreenWidgetState extends State<UnauthorizedErrorScreenWidget> {
+
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 100),
-        ()=>ShowError.showUnauthorizedError(context)
-    );
-    return Container(
-      color: Colors.white,
-      child: const SizedBox(),
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: const SizedBox(),
+      ),
     );
   }
 }
 
 class CustomErrorScreenWidget extends StatelessWidget {
   final String message;
-  final VoidCallback callback;
+  final VoidCallback? callback;
+
   const CustomErrorScreenWidget({
-    Key key,
-    @required this.message, this.callback,
-  })  : assert(message != null),
-        super(key: key);
+    Key? key,
+    required this.message,
+    this.callback,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -251,15 +266,16 @@ class CustomErrorScreenWidget extends StatelessWidget {
           ),
           Gaps.vGap32,
           Text(
-            message??"",
+            message ?? "",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Gaps.vGap32,
-          callback==null?Container():
-          RaisedButton(
+          callback == null
+              ? Container()
+              : RaisedButton(
             onPressed: callback,
             child: Text(
-              Translations.of(context).translate('btn_Rty_title'),
+              S.of(context).btn_Rty_title,
               style: TextStyle(fontSize: 12.5, color: Colors.white),
             ),
             color: Theme.of(context).accentColor,
@@ -274,8 +290,8 @@ class UnexpectedErrorScreenWidget extends StatelessWidget {
   final VoidCallback callback;
 
   const UnexpectedErrorScreenWidget({
-    Key key,
-    @required this.callback,
+    Key? key,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -291,14 +307,14 @@ class UnexpectedErrorScreenWidget extends StatelessWidget {
           ),
           Gaps.vGap32,
           Text(
-            Translations.of(context).translate('error_general'),
+            S.of(context).error_general,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Gaps.vGap32,
           RaisedButton(
             onPressed: callback,
             child: Text(
-              Translations.of(context).translate('btn_Rty_title'),
+              S.of(context).btn_Rty_title,
               style: TextStyle(fontSize: 12.5, color: Colors.white),
             ),
             color: Theme.of(context).accentColor,
@@ -309,13 +325,12 @@ class UnexpectedErrorScreenWidget extends StatelessWidget {
   }
 }
 
-
 class TimeoutErrorScreenWidget extends StatelessWidget {
   final VoidCallback callback;
 
   const TimeoutErrorScreenWidget({
-    Key key,
-    @required this.callback,
+    Key? key,
+    required this.callback,
   }) : super(key: key);
 
   @override
@@ -331,14 +346,14 @@ class TimeoutErrorScreenWidget extends StatelessWidget {
           ),
           Gaps.vGap32,
           Text(
-            Translations.of(context).translate('error_Timeout_Error'),
+            S.of(context).error_Timeout_Error,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Gaps.vGap32,
           RaisedButton(
             onPressed: callback,
             child: Text(
-              Translations.of(context).translate('btn_Rty_title'),
+              S.of(context).btn_Rty_title,
               style: TextStyle(fontSize: 12.5, color: Colors.white),
             ),
             color: Theme.of(context).accentColor,

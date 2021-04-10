@@ -1,6 +1,6 @@
 // Keys
 
-const TITLE_APP_NAME = 'FLUTTER TDD TEMPLATE';
+const TITLE_APP_NAME = 'FLUTTER CLEAN CODE TEMPLATE';
 const KEY_LANGUAGE = 'language';
 const KEY_TOKEN = 'token';
 const KEY_FIREBASE_TOKEN = 'firebase_token';

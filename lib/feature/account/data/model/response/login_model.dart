@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 class LoginModel{
-  final String token;
-  final AccountModel account;
+  final String? token;
+  final AccountModel? account;
 
   LoginModel({
-    this.account,
-    this.token,
+    required this.account,
+    required this.token,
   });
 
   factory LoginModel.fromJson(String str) => LoginModel.fromMap(json.decode(str));
@@ -19,16 +19,16 @@ class LoginModel{
   );
 
   Map<String, dynamic> toMap() => {
-    "account": account == null ? null : account.toMap(),
+    "account": account == null ? null : account!.toMap(),
     "token": token == null ? null : token,
   };
 }
 
 class AccountModel {
   AccountModel({
-    this.id,
-    this.name,
-    this.imageUrl,
+    required this.id,
+    required this.name,
+    required this.imageUrl,
   });
 
   final String id;

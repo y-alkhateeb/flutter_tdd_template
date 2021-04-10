@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ShowDialog {
-  Future<T> showTransparentDialog<T>({
-    @required BuildContext context,
+  Future<T?> showTransparentDialog<T>({
+    required BuildContext context,
     bool barrierDismissible = true,
-    WidgetBuilder builder,
+    required WidgetBuilder builder,
   }) {
-    final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
+    final ThemeData? theme = Theme.of(context);
     return showGeneralDialog(
       context: context,
       pageBuilder: (BuildContext buildContext, Animation<double> animation,
@@ -42,12 +42,12 @@ class ShowDialog {
     );
   }
 
-  Future<T> showElasticDialog<T>({
-    @required BuildContext context,
+  Future<T?> showElasticDialog<T>({
+    required BuildContext context,
     bool barrierDismissible = true,
-    WidgetBuilder builder,
+    required WidgetBuilder builder,
   }) {
-    final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
+    final ThemeData? theme = Theme.of(context);
     return showGeneralDialog(
       context: context,
       pageBuilder: (BuildContext buildContext, Animation<double> animation,

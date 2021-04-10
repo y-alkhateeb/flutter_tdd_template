@@ -2,22 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'aplash.dart';
 import 'core/common/app_colors.dart';
 import 'core/constants.dart';
 import 'core/localization/localization_provider.dart';
-import 'core/localization/restart_widget.dart';
-import 'core/localization/translations.dart';
 import 'core/route/route_generator.dart';
 import 'feature/account/presentation/bloc/account_bloc.dart';
+import 'generated/l10n.dart';
 
 final navigationKey = GlobalKey<NavigatorState>();
 
 class App extends StatefulWidget {
-  final AppConfigProvider appLanguage;
+  final LocalizationProvider appLanguage;
 
-  const App({Key key, this.appLanguage}) : super(key: key);
+  const App({Key? key,required this.appLanguage}) : super(key: key);
 
   @override
   _AppState createState() => _AppState();
@@ -37,10 +37,11 @@ class _AppState extends State<App> {
           lazy: true,
         ),
       ],
-      child: Consumer<AppConfigProvider>(
+      child: Consumer<LocalizationProvider>(
         builder: (_, provider, __) {
-          return RestartWidget(
-            child: MaterialApp(
+          return ScreenUtilInit(
+            designSize: Size(750, 1334),
+            builder: ()=> MaterialApp(
               debugShowCheckedModeBanner: false,
               title: TITLE_APP_NAME,
               themeMode: ThemeMode.light,
@@ -62,16 +63,13 @@ class _AppState extends State<App> {
                 ),
                 scaffoldBackgroundColor: AppColors.backgroundColor,
               ),
-              supportedLocales: [
-                // first
-                const Locale(LANG_EN),
-                // last
-                const Locale(LANG_AR),
-              ],
+              supportedLocales: S.delegate.supportedLocales,
               locale: provider.appLocal,
               // These delegates make sure that the localization data for the proper language is loaded
               localizationsDelegates: [
-                Translations.delegate,
+                // 1
+                S.delegate,
+                // 2
                 // Built-in localization of basic text for Material widgets
                 GlobalMaterialLocalizations.delegate,
                 // Built-in localization for text direction LTR/RTL
@@ -79,7 +77,7 @@ class _AppState extends State<App> {
                 DefaultCupertinoLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate
               ],
-                home: Splash(),
+              home: Splash(),
             ),
           );
         },

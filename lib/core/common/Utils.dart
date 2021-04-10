@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tdd_template/app.dart';
 import '../../feature/account/data/repository/account_repository.dart';
-import '../../feature/account/presentation/bloc/account_bloc.dart';
 import '../../feature/account/presentation/screen/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,7 +17,7 @@ fieldFocusChange(
   FocusScope.of(context).requestFocus(nextFocus);
 }
 /// This for unFocus nodes
-unFocusList({@required List<FocusNode> focus}){
+unFocusList({required List<FocusNode> focus}){
   focus.forEach((element) {element.unfocus();});
 }
 
@@ -33,10 +32,6 @@ launchURL(String url) async {
 logout() async {
   if (await AccountRepository.hasToken){
     await inject<AccountRepository>().deleteToken();
+    Navigator.of(navigationKey.currentContext!).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
   }
-}
-
-logoutGoToLoginAndResetStateBlocProvider(BuildContext context){
-  Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
-  BlocProvider.of<AccountBloc>(context).emit(AccountInitial());
 }

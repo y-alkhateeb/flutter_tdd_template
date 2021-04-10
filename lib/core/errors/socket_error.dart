@@ -1,3 +1,6 @@
-import './connection_error.dart';
+import 'base_error.dart';
 
-class SocketError extends ConnectionError {}
+class SocketError extends BaseError {
+  @override
+  List<Object?> get props => [];
+}

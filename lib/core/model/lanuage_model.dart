@@ -7,7 +7,7 @@ class LanguageModel {
   final String languageName;
   final Locale locale;
 
-  LanguageModel({this.languageId,this.languageName,this.locale,});
+  LanguageModel({required this.languageId,required this.languageName,required this.locale,});
 
   static List<LanguageModel> getLanguage() {
     return <LanguageModel>[

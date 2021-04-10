@@ -1,3 +1,6 @@
-import './http_error.dart';
+import 'base_error.dart';
 
-class NotFoundError extends HttpError {}
+class NotFoundError extends BaseError {
+  @override
+  List<Object?> get props => [];
+}

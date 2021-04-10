@@ -1,3 +1,7 @@
-import './connection_error.dart';
 
-class TimeoutError extends ConnectionError {}
+import 'base_error.dart';
+
+class TimeoutError extends BaseError {
+  @override
+  List<Object?> get props => [];
+}

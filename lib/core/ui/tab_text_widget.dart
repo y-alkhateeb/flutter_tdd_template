@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../common/dimens.dart';
 
 class TabTextWidget extends StatelessWidget {
   final String txt;
   final String icon;
 
-  const TabTextWidget({Key key, this.txt, this.icon}) : super(key: key);
+  const TabTextWidget({Key? key,required this.txt,required this.icon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class TabTextWidget extends StatelessWidget {
           txt,
           style: TextStyle(
               color: Theme.of(context).accentColor,
-              fontSize: ScreenUtil().setSp(Dimens.font_sp18)),
+              fontSize: Dimens.font_sp18.sp),
         ),
       ],
     );

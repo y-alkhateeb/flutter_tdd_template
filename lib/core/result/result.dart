@@ -1,8 +1,8 @@
 import '../errors/base_error.dart';
 
 class Result<Error extends BaseError, Data> {
-  final Data data;
-  final Error error;
+  final Data? data;
+  final Error? error;
 
   Result({this.data, this.error}) : assert(data != null || error != null);
 
