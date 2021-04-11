@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_tdd_template/core/errors/unknown_error.dart';
+import 'package:get_it/get_it.dart';
 import '../net/interceptor.dart';
 import '../net/net.dart';
-import '../../service_locator.dart';
 import '../errors/base_error.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -24,15 +24,15 @@ abstract class RemoteDataSource {
 
    // Specify the headers.
    final Map<String, String> headers = {};
-   inject<HttpClient>().instance.interceptors.clear();
+   GetIt.I<HttpClient>().instance.interceptors.clear();
    // Get the language.
-   inject<HttpClient>().instance.interceptors.add(LanguageInterceptor());
+   GetIt.I<HttpClient>().instance.interceptors.add(LanguageInterceptor());
    if (withAuthentication) {
-     inject<HttpClient>().instance.interceptors.add(AuthInterceptor());
+     GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
    }
 
    // Send the request.
-   final response = await inject<HttpClient>().upload<TResponse, EModel>(
+   final response = await GetIt.I<HttpClient>().upload<TResponse, EModel>(
      url: url,
      fileKey: fileKey,
      filePath: filePath,
@@ -71,14 +71,14 @@ abstract class RemoteDataSource {
 
     // Specify the headers.
     final Map<String, String> headers = {};
-    inject<HttpClient>().instance.interceptors.clear();
+    GetIt.I<HttpClient>().instance.interceptors.clear();
     // Get the language.
-    inject<HttpClient>().instance.interceptors.add(LanguageInterceptor());
+    GetIt.I<HttpClient>().instance.interceptors.add(LanguageInterceptor());
     if (withAuthentication) {
-      inject<HttpClient>().instance.interceptors.add(AuthInterceptor());
+      GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
     }
     // Send the request.
-    final response = await inject<HttpClient>().sendRequest<TResponse,EModel>(
+    final response = await GetIt.I<HttpClient>().sendRequest<TResponse,EModel>(
       method: method,
       url: url,
       headers: headers,

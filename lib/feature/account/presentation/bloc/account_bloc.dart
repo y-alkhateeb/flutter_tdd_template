@@ -9,8 +9,7 @@ import 'package:flutter_tdd_template/feature/account/data/model/request/register
 import 'package:flutter_tdd_template/feature/account/domain/repository/iaccount_repository.dart';
 import 'package:flutter_tdd_template/feature/account/domain/usecase/login_usecase.dart';
 import 'package:flutter_tdd_template/feature/account/domain/usecase/register_usecase.dart';
-
-import '../../../../service_locator.dart';
+import 'package:get_it/get_it.dart';
 
 part 'account_event.dart';
 
@@ -23,7 +22,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
   Stream<AccountState> mapEventToState(AccountEvent event,) async* {
     if (event is LoginAccountEvent) {
       yield LoginAccountWaiting();
-      final data = await LoginUseCase(inject<IAccountRepository>())(
+      final data = await LoginUseCase(GetIt.I<IAccountRepository>())(
           LoginRequest(
             cancelToken: event.loginRequest.cancelToken,
             phoneNumber: event.loginRequest.phoneNumber,
@@ -46,7 +45,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
 
     if (event is RegisterAccountEvent) {
       yield RegisterAccountWaiting();
-      final data = await RegisterUseCase(inject<IAccountRepository>())(
+      final data = await RegisterUseCase(GetIt.I<IAccountRepository>())(
           RegisterRequest(
             firstName: event.registerRequest.firstName,
             lastName: event.registerRequest.lastName,

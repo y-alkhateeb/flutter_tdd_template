@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tdd_template/app.dart';
+import 'package:get_it/get_it.dart';
 import '../../feature/account/data/repository/account_repository.dart';
 import '../../feature/account/presentation/screen/login_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../service_locator.dart';
 
 /// This function for move cursor from A to B
 /// and will be take 3 parameter
@@ -31,7 +31,7 @@ launchURL(String url) async {
 
 logout() async {
   if (await AccountRepository.hasToken){
-    await inject<AccountRepository>().deleteToken();
+    await GetIt.I<AccountRepository>().deleteToken();
     Navigator.of(navigationKey.currentContext!).pushNamedAndRemoveUntil(LoginScreen.routeName,(Route<dynamic> route) => false);
   }
 }
