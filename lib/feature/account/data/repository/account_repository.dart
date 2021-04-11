@@ -21,7 +21,7 @@ class AccountRepository extends IAccountRepository {
   Future<Result<BaseError, LoginModel>> login(LoginRequest loginRequest) async {
     final remote = await iAccountRemoteSource.login(loginRequest);
     if (remote.isLeft()) {
-      return Result(error: (remote as Left<BaseError, LoginModel>).value);
+      return Result.error((remote as Left<BaseError, LoginModel>).value);
     }
     if (remote.isRight()) {
       final data = (remote as Right<BaseError, LoginModel>).value;
@@ -29,10 +29,10 @@ class AccountRepository extends IAccountRepository {
       if (data.token != null && data.token!.isNotEmpty) {
         await persistToken(data.token!);
       }
-      return Result(data: data);
+      return Result.data(data);
     }
     else {
-      return Result(error: UnknownError());
+      return Result.error(UnknownError());
     }
   }
 
@@ -41,12 +41,12 @@ class AccountRepository extends IAccountRepository {
       RegisterRequest registerRequest) async {
     final remote = await iAccountRemoteSource.register(registerRequest);
     if(remote.isLeft()){
-      return Result(error: (remote as Left<BaseError, RegisterModel>).value);
+      return Result.error((remote as Left<BaseError, RegisterModel>).value);
     }
     if(remote.isRight()){
-      return Result(data: (remote as Right<BaseError, RegisterModel>).value);
+      return Result.data((remote as Right<BaseError, RegisterModel>).value);
     }
-    else return Result(error: UnknownError());
+    else return Result.error(UnknownError());
   }
 
   /// deleteToken

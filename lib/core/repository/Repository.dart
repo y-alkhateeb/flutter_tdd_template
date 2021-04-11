@@ -8,11 +8,11 @@ abstract class Repository{
   Result<BaseError, T> execute<T>({required
   Either<BaseError, T> remote}){
     if(remote.isLeft()){
-      return Result(error: (remote as Left<BaseError, T>).value);
+      return Result.error((remote as Left<BaseError, T>).value);
     }
     if(remote.isRight()){
-      return Result(data:(remote as Right<BaseError, T>).value);
+      return Result.data((remote as Right<BaseError, T>).value);
     }
-    else return Result(error: UnknownError());
+    else return Result.error(UnknownError());
   }
 }

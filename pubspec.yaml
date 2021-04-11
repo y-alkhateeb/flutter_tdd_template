@@ -18,6 +18,8 @@ dependencies:
   flutter_bloc: ^7.0.0
   # Service Locator
   get_it: ^6.0.0
+  # prints beautiful logs
+  logger: ^1.0.0
   # Functional programming in Dart
   dartz: ^0.10.0-nullsafety.1
   # shared preferences

@@ -30,22 +30,25 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
             password: event.loginRequest.password,
           )
       );
-      if (data.hasErrorOnly) {
+      data.pick(
+        onData: (data) async*{
+          yield LoginAccountSuccess();
+        },
+        onError: (error) async*{
           yield LoginAccountGeneralFailure(
-              data.error!,
+              error,
                   () {
                 this.add(event);
               }
           );
-      }
-      if (data.hasDataOnly) {
-        yield LoginAccountSuccess();
-      }
+        },
+        onDataWithError: (data, error){}
+      );
     }
 
     if (event is RegisterAccountEvent) {
       yield RegisterAccountWaiting();
-      final data = await RegisterUseCase(GetIt.I<IAccountRepository>())(
+      final _result = await RegisterUseCase(GetIt.I<IAccountRepository>())(
           RegisterRequest(
             firstName: event.registerRequest.firstName,
             lastName: event.registerRequest.lastName,
@@ -55,17 +58,20 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
             password: event.registerRequest.password,
           )
       );
-      if (data.hasErrorOnly) {
+      _result.pick(
+        onError: (error) async*{
           yield RegisterAccountGeneralFailure(
-              data.error!,
+              error,
                   () {
                 this.add(event);
               }
           );
-      }
-      if (data.hasDataOnly) {
-        yield RegisterAccountSuccess();
-      }
+        },
+        onData: (data) async*{
+          yield RegisterAccountSuccess();
+        },
+        onDataWithError: (data, error){},
+      );
     }
 
   }

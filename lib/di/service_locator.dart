@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
-import 'core/net/http_client.dart';
-import 'feature/account/data/datasources/iaccount_remote.dart';
-import 'feature/account/data/repository/account_repository.dart';
-import 'feature/account/domain/repository/iaccount_repository.dart';
+import '../core/net/http_client.dart';
+import '../feature/account/data/datasources/iaccount_remote.dart';
+import '../feature/account/data/repository/account_repository.dart';
+import '../feature/account/domain/repository/iaccount_repository.dart';
 
 Future<void> setupInjection() async {
   //Components
