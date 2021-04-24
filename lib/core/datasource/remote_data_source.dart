@@ -7,7 +7,7 @@ import '../net/net.dart';
 import '../errors/base_error.dart';
 import 'package:http_parser/http_parser.dart';
 
-abstract class RemoteDataSource {
+class RemoteDataSource {
  Future<Either<BaseError, TModel>>requestUploadFile<TModel, TResponse,EModel>({
    required TResponse Function(dynamic) converter,
    required String url,
@@ -25,8 +25,6 @@ abstract class RemoteDataSource {
    // Specify the headers.
    final Map<String, String> headers = {};
    GetIt.I<HttpClient>().instance.interceptors.clear();
-   // Get the language.
-   GetIt.I<HttpClient>().instance.interceptors.add(LanguageInterceptor());
    if (withAuthentication) {
      GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
    }
@@ -72,8 +70,6 @@ abstract class RemoteDataSource {
     // Specify the headers.
     final Map<String, String> headers = {};
     GetIt.I<HttpClient>().instance.interceptors.clear();
-    // Get the language.
-    GetIt.I<HttpClient>().instance.interceptors.add(LanguageInterceptor());
     if (withAuthentication) {
       GetIt.I<HttpClient>().instance.interceptors.add(AuthInterceptor());
     }

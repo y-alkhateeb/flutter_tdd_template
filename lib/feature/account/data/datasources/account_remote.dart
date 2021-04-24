@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_tdd_template/core/errors/base_error.dart';
-import 'package:flutter_tdd_template/core/net/http_method.dart';
+import 'package:flutter_tdd_template/core/constants/enums/http_method.dart';
 import 'package:flutter_tdd_template/feature/account/data/model/request/login_request.dart';
 import 'package:flutter_tdd_template/feature/account/data/model/request/register_request.dart';
 import 'package:flutter_tdd_template/feature/account/data/model/response/login_model.dart';

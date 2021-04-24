@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_tdd_template/core/constants.dart';
+import 'package:flutter_tdd_template/core/constants/app/app_constants.dart';
 import 'package:flutter_tdd_template/core/datasource/shared_preference.dart';
 import 'package:flutter_tdd_template/core/errors/base_error.dart';
 import 'package:flutter_tdd_template/core/errors/unknown_error.dart';
@@ -52,14 +52,14 @@ class AccountRepository extends IAccountRepository {
   /// deleteToken
   Future<void> deleteToken() async {
     final prefs = await SpUtil.getInstance();
-    await prefs.remove(KEY_TOKEN);
+    await prefs.remove(ApplicationConstants.KEY_TOKEN);
     return;
   }
 
   /// deleteFcmToken
   Future<void> deleteFcmToken() async {
     final prefs = await SpUtil.getInstance();
-    await prefs.remove(KEY_FIREBASE_TOKEN);
+    await prefs.remove(ApplicationConstants.KEY_FIREBASE_TOKEN);
     return;
   }
 
@@ -71,14 +71,14 @@ class AccountRepository extends IAccountRepository {
     final reversedTempToken1 = tempToken1.split("").reversed.join();
     final reversedTempToken2 = tempToken2.split("").reversed.join();
     final newToken = ("$reversedTempToken2$reversedTempToken1");
-    await prefs.putString(KEY_TOKEN, newToken);
+    await prefs.putString(ApplicationConstants.KEY_TOKEN, newToken);
     return;
   }
 
   /// persistFcmToken
   Future<void> persistFcmToken(String token) async {
     final prefs = await SpUtil.getInstance();
-    await prefs.putString(KEY_FIREBASE_TOKEN, token);
+    await prefs.putString(ApplicationConstants.KEY_FIREBASE_TOKEN, token);
     return;
   }
 
@@ -86,7 +86,7 @@ class AccountRepository extends IAccountRepository {
   /// read authToken
   static Future<String> get authToken async {
     final prefs = await SpUtil.getInstance();
-    String tempToken = await prefs.getString(KEY_TOKEN);
+    String tempToken = await prefs.getString(ApplicationConstants.KEY_TOKEN);
     final tempToken2 = tempToken.substring(13,tempToken.length);
     final tempToken1 = tempToken.substring(0,13);
     final reversedTempToken1 = tempToken1.split("").reversed.join();
@@ -98,14 +98,14 @@ class AccountRepository extends IAccountRepository {
   /// read fcmToken
   static Future<String> get fcmToken async {
     final prefs = await SpUtil.getInstance();
-    return await prefs.getString(KEY_FIREBASE_TOKEN);
+    return await prefs.getString(ApplicationConstants.KEY_FIREBASE_TOKEN);
   }
 
 
   /// check if hasToken or not
   static Future<bool> get hasToken async {
     final prefs = await SpUtil.getInstance();
-    String token = await prefs.getString(KEY_TOKEN);
+    String token = await prefs.getString(ApplicationConstants.KEY_TOKEN);
     if (token.isNotEmpty) return true;
     return false;
   }
@@ -113,7 +113,7 @@ class AccountRepository extends IAccountRepository {
   /// check if hasFcmToken or not
   static Future<bool> get hasFcmToken async {
     final prefs = await SpUtil.getInstance();
-    final token = await prefs.getString(KEY_FIREBASE_TOKEN);
+    final token = await prefs.getString(ApplicationConstants.KEY_FIREBASE_TOKEN);
     if (token != null && token.isNotEmpty) return true;
     return false;
   }

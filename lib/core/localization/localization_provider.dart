@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../constants/app/app_constants.dart';
 import '../datasource/shared_preference.dart';
 
 class LocalizationProvider extends ChangeNotifier {
-  Locale _appLocale = Locale(LANG_EN);
+  static final LocalizationProvider _instance = LocalizationProvider._init();
+  static LocalizationProvider get instance => _instance;
+
+  LocalizationProvider._init();
+
+  Locale _appLocale = Locale(ApplicationConstants.LANG_EN);
 
   /// Get current Locale supported
   Locale get appLocal => _appLocale;
@@ -15,16 +20,16 @@ class LocalizationProvider extends ChangeNotifier {
     var prefs = await SpUtil.getInstance();
 
     /// check if the application is first start or not
-    if (prefs.getBool(KEY_FIRST_START) == null) {
+    if (prefs.getBool(ApplicationConstants.KEY_FIRST_START) == null) {
       /// set first start is true
-      await prefs.putBool(KEY_FIRST_START, true);
+      await prefs.putBool(ApplicationConstants.KEY_FIRST_START, true);
     }
-    if (prefs.getString(KEY_LANGUAGE) == null) {
-      _appLocale = Locale(LANG_AR);
-      await prefs.putString(KEY_LANGUAGE, LANG_AR);
+    if (prefs.getString(ApplicationConstants.KEY_LANGUAGE) == null) {
+      _appLocale = Locale(ApplicationConstants.LANG_AR);
+      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_AR);
       return Null;
     }
-    _appLocale = Locale(prefs.getString(KEY_LANGUAGE));
+    _appLocale = Locale(prefs.getString(ApplicationConstants.KEY_LANGUAGE));
     return Null;
   }
 
@@ -33,12 +38,12 @@ class LocalizationProvider extends ChangeNotifier {
     if (_appLocale == type) {
       return;
     }
-    if (type == Locale(LANG_AR)) {
-      _appLocale = Locale(LANG_AR);
-      await prefs.putString(KEY_LANGUAGE, LANG_AR);
+    if (type == Locale(ApplicationConstants.LANG_AR)) {
+      _appLocale = Locale(ApplicationConstants.LANG_AR);
+      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_AR);
     } else {
-      _appLocale = Locale(LANG_EN);
-      await prefs.putString(KEY_LANGUAGE, LANG_EN);
+      _appLocale = Locale(ApplicationConstants.LANG_EN);
+      await prefs.putString(ApplicationConstants.KEY_LANGUAGE, ApplicationConstants.LANG_EN);
     }
     notifyListeners();
   }

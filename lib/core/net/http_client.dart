@@ -4,8 +4,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tdd_template/core/navigation/navigation_service.dart';
 import 'package:flutter_tdd_template/generated/l10n.dart';
-import '../../app.dart';
 import '../errors/bad_request_error.dart';
 import '../errors/base_error.dart';
 import '../errors/cancel_error.dart';
@@ -19,7 +19,7 @@ import '../errors/timeout_error.dart';
 import '../errors/unauthorized_error.dart';
 import '../errors/unknown_error.dart';
 import 'api_url.dart';
-import 'http_method.dart';
+import '../constants/enums/http_method.dart';
 import 'package:http_parser/http_parser.dart';
 
 
@@ -205,7 +205,7 @@ class HttpClient{
         error.type == DioErrorType.receiveTimeout) {
       return TimeoutError();
     } else if (error.type == DioErrorType.cancel) {
-      return CancelError(S.of(navigationKey.currentContext!).error_cancel_token);
+      return CancelError(S.of(NavigationService.instance.navigatorKey.currentContext!).error_cancel_token);
     } else
       return UnknownError();
     }

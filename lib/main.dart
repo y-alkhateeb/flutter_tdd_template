@@ -6,14 +6,9 @@ import 'di/service_locator.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final _appLanguage = LocalizationProvider();
   setupInjection();
   // Init Language.
-  await _appLanguage.fetchLocale();
+  await LocalizationProvider.instance.fetchLocale();
   AppConfig().initVersion();
-  runApp(
-    App(
-      appLanguage: _appLanguage,
-    ),
-  );
+  runApp(App());
 }

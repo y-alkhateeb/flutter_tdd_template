@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'package:package_info/package_info.dart';
-import '../datasource/shared_preference.dart';
-import '../constants.dart';
 
 // This class it contain tow functions
 // for get device info
@@ -15,7 +13,6 @@ class AppConfig {
 
   AppConfig._internal();
 
-  String? lang;
   int? os;
   String? currentVersion;
   String? buildNumber;
@@ -35,13 +32,5 @@ class AppConfig {
     currentVersion = packageInfo.version;
     buildNumber = packageInfo.buildNumber;
     appName = packageInfo.appName;
-  }
-
-  // get current language from shared pref
-  Future<String> currentLanguage() async {
-    final prefs = await SpUtil.getInstance();
-      lang = await prefs.getString(KEY_LANGUAGE);
-    if(lang != null) return lang!;
-    else return LANG_EN;
   }
 }

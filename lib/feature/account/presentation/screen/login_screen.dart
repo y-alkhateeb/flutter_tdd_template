@@ -9,12 +9,11 @@ import 'package:flutter_tdd_template/core/common/app_colors.dart';
 import 'package:flutter_tdd_template/core/common/dimens.dart';
 import 'package:flutter_tdd_template/core/common/gaps.dart';
 import 'package:flutter_tdd_template/core/common/validators.dart';
-import 'package:flutter_tdd_template/core/constants.dart';
+import 'package:flutter_tdd_template/core/constants/app/app_constants.dart';
 import 'package:flutter_tdd_template/core/ui/g_text_form_field.dart';
 import 'package:flutter_tdd_template/core/ui/show_error.dart';
-import 'package:flutter_tdd_template/feature/account/data/datasources/account_remote.dart';
 import 'package:flutter_tdd_template/feature/account/data/model/request/login_request.dart';
-import 'package:flutter_tdd_template/feature/account/presentation/bloc/account_bloc.dart';
+import 'package:flutter_tdd_template/feature/account/presentation/viewModel/account_bloc.dart';
 import 'package:flutter_tdd_template/feature/account/presentation/widget/custom_button_widget.dart';
 import 'package:flutter_tdd_template/feature/home/screen/bottom_tab_bar.dart';
 import 'package:flutter_tdd_template/generated/l10n.dart';
@@ -54,7 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             image: const DecorationImage(
-                image: const AssetImage(LOGIN_BACKGROUND), fit: BoxFit.cover),
+                image: const AssetImage(ApplicationConstants.LOGIN_BACKGROUND),
+                fit: BoxFit.cover),
           ),
           child: SafeArea(
             child: ModalProgressHUD(

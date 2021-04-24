@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tdd_template/core/common/Utils.dart';
 import 'package:flutter_tdd_template/core/common/app_colors.dart';
 import 'package:flutter_tdd_template/core/common/dimens.dart';
-import 'package:flutter_tdd_template/core/constants.dart';
+import 'package:flutter_tdd_template/core/constants/app/app_constants.dart';
 import 'package:flutter_tdd_template/core/localization/localization_provider.dart';
 import 'package:flutter_tdd_template/core/model/lanuage_model.dart';
 import 'package:flutter_tdd_template/core/ui/more_item.dart';
@@ -89,12 +89,12 @@ class _BottomTabBarState extends State<BottomTabBar>
           children: [
             MoreItem(
               title: S.of(context).label_change_language,
-              image: MENU_CHANGE_LANG,
+              image: ApplicationConstants.MENU_CHANGE_LANG,
               onPressed: ()=> _buildChangeLanguage(),
             ),
             MoreItem(
               title: S.of(context).label_logout,
-              image: MENU_LOGOUT,
+              image: ApplicationConstants.MENU_LOGOUT,
               onPressed: () async {
                 await logout();
               },
@@ -146,7 +146,7 @@ class _BottomTabBarState extends State<BottomTabBar>
 
   _buildChangeLanguage() {
     int? _currentLangValue =
-    Localizations.localeOf(context).languageCode == LANG_AR
+    Localizations.localeOf(context).languageCode == ApplicationConstants.LANG_AR
         ? LanguageModel.getLanguage().first.languageId
         : LanguageModel.getLanguage().last.languageId;
     ShowDialog().showTransparentDialog(

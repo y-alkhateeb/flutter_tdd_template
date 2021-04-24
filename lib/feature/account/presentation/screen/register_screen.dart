@@ -7,12 +7,12 @@ import 'package:flutter_tdd_template/core/common/app_colors.dart';
 import 'package:flutter_tdd_template/core/common/dimens.dart';
 import 'package:flutter_tdd_template/core/common/gaps.dart';
 import 'package:flutter_tdd_template/core/common/validators.dart';
-import 'package:flutter_tdd_template/core/constants.dart';
+import 'package:flutter_tdd_template/core/constants/app/app_constants.dart';
 import 'package:flutter_tdd_template/core/route/animated_route.dart';
 import 'package:flutter_tdd_template/core/ui/g_text_form_field.dart';
 import 'package:flutter_tdd_template/core/ui/show_error.dart';
 import 'package:flutter_tdd_template/feature/account/data/model/request/register_request.dart';
-import 'package:flutter_tdd_template/feature/account/presentation/bloc/account_bloc.dart';
+import 'package:flutter_tdd_template/feature/account/presentation/ViewModel/account_bloc.dart';
 import 'package:flutter_tdd_template/feature/account/presentation/widget/custom_button_widget.dart';
 import 'package:flutter_tdd_template/generated/l10n.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -69,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(REGISTER_BACKGROUND),
+            image: AssetImage(ApplicationConstants.REGISTER_BACKGROUND),
             fit: BoxFit.fill,
           ),
         ),
@@ -115,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             MediaQuery.of(context).padding.top,
         decoration: const BoxDecoration(
           image: const DecorationImage(
-              image: const AssetImage(REGISTER_BACKGROUND),
+              image: const AssetImage(ApplicationConstants.REGISTER_BACKGROUND),
               fit: BoxFit.cover),
         ),
         child: Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../constants/app/app_constants.dart';
 
 class LanguageModel {
   final int languageId;
@@ -11,8 +11,8 @@ class LanguageModel {
 
   static List<LanguageModel> getLanguage() {
     return <LanguageModel>[
-      LanguageModel(languageId: 0, languageName: "العربية",locale: Locale(LANG_AR)),
-      LanguageModel(languageId: 1, languageName: "English",locale: Locale(LANG_EN)),
+      LanguageModel(languageId: 0, languageName: "العربية",locale: Locale(ApplicationConstants.LANG_AR)),
+      LanguageModel(languageId: 1, languageName: "English",locale: Locale(ApplicationConstants.LANG_EN)),
     ];
   }
 }

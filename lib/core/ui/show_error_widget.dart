@@ -11,7 +11,7 @@ import '../errors/internal_server_error.dart';
 import '../errors/not_found_error.dart';
 import '../errors/timeout_error.dart';
 import '../errors/unauthorized_error.dart';
-import '../constants.dart';
+import '../constants/app/app_constants.dart';
 
 class ShowErrorWidget extends StatelessWidget {
   final dynamic state;
@@ -85,7 +85,7 @@ class ConnectionErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            ERROR_SERVER,
+            ApplicationConstants.ERROR_SERVER,
             scale: 2.5,
           ),
           Gaps.vGap32,
@@ -123,7 +123,7 @@ class InternalServerErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            ERROR_SERVER,
+            ApplicationConstants.ERROR_SERVER,
             scale: 2.5,
           ),
           Gaps.vGap32,
@@ -176,7 +176,7 @@ class BadRequestErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            ERROR_INVALID,
+            ApplicationConstants.ERROR_INVALID,
             scale: 2.5,
           ),
           Gaps.vGap32,
@@ -204,7 +204,7 @@ class NotFoundErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            ERROR_SERVER,
+            ApplicationConstants.ERROR_SERVER,
             scale: 2.5,
           ),
           Gaps.vGap32,
@@ -261,7 +261,7 @@ class CustomErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            ERROR_UNKNOWING,
+            ApplicationConstants.ERROR_UNKNOWING,
             scale: 2.5,
           ),
           Gaps.vGap32,
@@ -302,7 +302,7 @@ class UnexpectedErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            ERROR_UNKNOWING,
+            ApplicationConstants.ERROR_UNKNOWING,
             scale: 2.5,
           ),
           Gaps.vGap32,
@@ -341,7 +341,7 @@ class TimeoutErrorScreenWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Image.asset(
-            ERROR_TIMEOUT,
+            ApplicationConstants.ERROR_TIMEOUT,
             scale: 2.5,
           ),
           Gaps.vGap32,
